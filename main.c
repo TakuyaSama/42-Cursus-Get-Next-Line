@@ -1,17 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adiaz-lo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/21 12:50:53 by adiaz-lo          #+#    #+#             */
-/*   Updated: 2020/01/22 09:29:16 by adiaz-lo         ###   ########.fr       */
+/*   Created: 2020/01/22 10:32:56 by adiaz-lo          #+#    #+#             */
+/*   Updated: 2020/01/22 10:39:13 by adiaz-lo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	get_next_line(int fd, char **line)
-{
+#include <get_next_line.h>
 
-	return 1;
+int		main(void)
+{
+	int		fd;
+	
+	fd = open("test_files/1_empty_line");
+	if (fd == -1)
+		ft_putstr("Open failed");
+
+	return (0);
 }
