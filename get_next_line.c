@@ -6,25 +6,55 @@
 /*   By: adiaz-lo <adiaz-lo@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 13:37:53 by adiaz-lo          #+#    #+#             */
-/*   Updated: 2021/02/01 16:47:40 by adiaz-lo         ###   ########.fr       */
+/*   Updated: 2021/02/03 17:24:03 by adiaz-lo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+/*
+** This function allocates (using 'malloc()') and returns a substring from the
+** string 's'.
+** The substring begins at index 'start' and is as maximum size 'len'.
+*/
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	count;
+	size_t	size;
+	char	*tab;
+
+	if (!s)
+		return (NULL);
+	if ((unsigned int)ft_strlen(s) < start)
+		return (ft_strdup(""));
+	size = ft_strlen(s + start);
+	if (size < len)
+		len = size;
+	if (!(tab = (char *)malloc((len + 1) * sizeof(char))))
+		return (NULL);
+	count = 0;
+	while (count < len)
+	{
+		tab[count] = s[start + count];
+		count++;
+	}
+	tab[count] = '\0';
+	return (tab);
+}
+
 int	get_next_line(int fd, char **line)
 {
 	int		i;
-	int		BUFFER_SIZE = 8;
-	char		*buf[BUFFER_SIZE + 1];
+	char		buf[BUFFER_SIZE + 1];
 	static char	*aux;
 	char		*aux2;
-	char		*tmp;
+	int		tmp;
 	char		*tmp2;
 
 	if (!line)
 		return (-1);
-	while (i = read(fd, buf, BUFFER_SIZE) > 0)
+	while ((i = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[i] = '\0';
 		if (!aux)
@@ -45,20 +75,26 @@ int	get_next_line(int fd, char **line)
 		aux = ft_strdup("");
 		return (i);
 	}
-	if (tmp = ft_strchr(aux, '\n'))
+	else
 	{
-		*tmp = 0;
-		*line = ft_strdup(aux);
-		tmp2 = ft_strdup(++tmp);
-		free(aux);
-		aux = tmp2;
+		tmp = 0;
+		while (aux[tmp] != '\n' && aux[tmp] != '\0')
+			tmp++;
+		if (aux[tmp] == '\n')
+		{
+			*line = ft_substr(aux, 0, tmp);
+			tmp2 = ft_strdup(&aux[tmp + 1]);
+			free(aux);
+			aux = tmp2;
+		}
+		else if (aux[tmp] == '\0')
+		{
+			*line = ft_strdup(aux);
+			free(aux);
+			aux = 0;
+			return (0);
+		}
 		return (1);
 	}
-	else if (tmp = ft_strchr(aux, '\0'))
-	{
-		*line = ft_strdup(aux);
-		free(aux);
-		aux = 0;
-		return (0);
-	}
 }
+
