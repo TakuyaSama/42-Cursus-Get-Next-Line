@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adiaz-lo <marvin@42.fr>	            +#+  +:+       +#+        */
+/*   By: adiaz-lo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/04 20:18:49 by adiaz-lo          #+#    #+#             */
-/*   Updated: 2021/02/04 21:58:42 by adiaz-lo         ###   ########.fr       */
+/*   Created: 2020/01/21 12:52:10 by adiaz-lo          #+#    #+#             */
+/*   Updated: 2021/02/04 20:16:57 by adiaz-lo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-/*
-** This function allocates (using 'malloc()') and returns a substring from the
-** string 's'.
-** The substring begins at index 'start' and is as maximum size 'len'.
-*/
 
 char		*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -43,10 +37,6 @@ char		*ft_substr(char const *s, unsigned int start, size_t len)
 	return (tab);
 }
 
-/*
-** Auxiliar function that frees memory of a pointer of pointers
-*/
-
 void		free_mem(char **line_str)
 {
 	if (line_str != NULL && *line_str != NULL)
@@ -56,13 +46,9 @@ void		free_mem(char **line_str)
 	}
 }
 
-/*
-** Auxiliar function that trims what we read to a line.
-*/
-
 static	int	set_line(char **line, char **line_read)
 {
-	int	tmp;
+	int		tmp;
 	char	*tmp2;
 
 	tmp = 0;
@@ -84,10 +70,6 @@ static	int	set_line(char **line, char **line_read)
 	return (1);
 }
 
-/*
-** Auxiliar function that checks what's been read
-*/
-
 static	int	check_read(int fd, int i, char **line, char **line_read)
 {
 	if (i < 0)
@@ -102,13 +84,9 @@ static	int	check_read(int fd, int i, char **line, char **line_read)
 		return (set_line(line, &line_read[fd]));
 }
 
-/*
-** Main function of the program
-*/
-
-int		get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
-	int		i;
+	int			i;
 	char		buf[BUFFER_SIZE + 1];
 	static char	*str[4096];
 	char		*str_buf;

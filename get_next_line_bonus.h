@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adiaz-lo <marvin@42.fr>	            +#+  +:+       +#+        */
+/*   By: adiaz-lo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/04 20:08:29 by adiaz-lo          #+#    #+#             */
-/*   Updated: 2021/02/04 21:56:54 by adiaz-lo         ###   ########.fr       */
+/*   Created: 2020/01/21 12:52:10 by adiaz-lo          #+#    #+#             */
+/*   Updated: 2021/02/04 20:16:57 by adiaz-lo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-int		get_next_line(int fd, char **line);
+int			get_next_line(int fd, char **line);
 size_t		ft_strlen(const char *s);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strchr(const char *s, int c);
