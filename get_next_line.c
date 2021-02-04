@@ -6,7 +6,7 @@
 /*   By: adiaz-lo <adiaz-lo@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 13:37:53 by adiaz-lo          #+#    #+#             */
-/*   Updated: 2021/02/04 17:45:17 by adiaz-lo         ###   ########.fr       */
+/*   Updated: 2021/02/04 17:48:25 by adiaz-lo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,19 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	tab[count] = '\0';
 	return (tab);
+}
+
+/*
+** Auxiliar function that frees memory of a pointer of pointers
+*/
+
+void	free_mem(char **line_str)
+{
+	if (line_str != NULL && *line_str != NULL)
+	{
+		free(*line_str);
+		*line_str = NULL;
+	}
 }
 
 /*
@@ -87,19 +100,6 @@ static int	check_read(int fd, int i, char **line, char **line_read)
 	}
 	else
 		return (set_line(line, &line_read[fd]));
-}
-
-/*
-** Auxiliar function that frees memory of a pointer of pointers
-*/
-
-void	free_mem(char **line_str)
-{
-	if (line_str != NULL && *line_str != NULL)
-	{
-		free(*line_str);
-		*line_str = NULL;
-	}
 }
 
 /*
