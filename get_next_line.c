@@ -6,7 +6,7 @@
 /*   By: adiaz-lo <adiaz-lo@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 13:37:53 by adiaz-lo          #+#    #+#             */
-/*   Updated: 2021/02/04 14:41:27 by adiaz-lo         ###   ########.fr       */
+/*   Updated: 2021/02/04 17:36:13 by adiaz-lo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,66 +47,88 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 ** Auxiliar function that trims what we read to a line.
 */
 
-static int	set_line(char **line, char *aux)
+static int	set_line(char **line, char **line_read)
 {
 	int	tmp;
 	char	*tmp2;
 
 	tmp = 0;
-	while (aux[tmp] != '\n' && aux[tmp] != '\0')
+	while ((*line_read)[tmp] != L_EOF && (*line_read)[tmp] != '\0')
 		tmp++;
-	if (aux[tmp] == '\n')
+	if ((*line_read)[tmp] == L_EOF)
 	{
-		*line = ft_substr(aux, 0, tmp);
-		tmp2 = ft_strdup(&aux[tmp + 1]);
-		free(aux);
-		aux = tmp2;
+		*line = ft_substr(*line_read, 0, tmp);
+		tmp2 = ft_strdup((*line_read)[tmp + 1]);
+		free(*line_read);
+		*line_read = tmp2;
 	}
-	else if (aux[tmp] == '\0')
+	else if ((*line_read)[tmp] == '\0')
 	{
-		*line = ft_strdup(aux);
+		*line = ft_strdup(*line_read);
+		free_mem(line_read);
 		return (0);
 	}
 	return (1);
 }
 
-static int	check_read(int i, char **line, char *aux)
+/*
+** Auxiliar function that checks what's been read
+*/
+
+static int	check_read(int fd, int i, char **line, char **line_read)
 {
 	if (i < 0)
 		return (-1);
-	if (i == 0 && !aux)
+	else if (i == 0 && !line_read[fd])
 	{
-		aux = ft_strdup("");
-		aux = 0;
+		*line = ft_strdup("");
+		free_mem(line_read);
 		return (0);
 	}
 	else
-		return (ft_set_line(line, aux));
+		return (set_line(line, &line_read[fd]));
 }
+
+/*
+** Auxiliar function that frees memory of a pointer of pointers
+*/
+
+void	free_mem(char **line_str)
+{
+	if (line_str != NULL && *line_str != NULL)
+	{
+		free(*line_str);
+		*line_str = NULL;
+	}
+}
+
+/*
+** Main function of the program
+*/
 
 int	get_next_line(int fd, char **line)
 {
 	int		i;
 	char		buf[BUFFER_SIZE + 1];
-	static char	*aux;
-	char		*aux2;
+	static char	*str[4096];
+	char		*str_buf;
 
 	if (!line || fd < 0 || BUFFER_SIZE < 1 || read (fd, buf, 0) < 0)
 		return (-1);
 	while ((i = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[i] = '\0';
-		if (!aux)
-			aux = ft_strdup(buf);
+		if (str[fd] == NULL)
+			str[fd] = ft_strdup(buf);
 		else
 		{
-			aux2 = ft_strjoin(aux, buf);
-			free(aux);
-			aux = aux2;
+			str_buf = ft_strjoin(str[fd], buf);
+			free(str[fd]);
+			str[fd] = str_buf;
 		}
-		if (ft_strchr(aux, '\n'))
-			break;
+		if (ft_strchr(str[fd], L_EOF))
+			break ;
 	}
-	return (check_read(i, line, aux));
+	return (check_read(fd, i, line, str));
 }
 
