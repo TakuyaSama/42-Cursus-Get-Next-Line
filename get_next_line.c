@@ -6,7 +6,7 @@
 /*   By: adiaz-lo <adiaz-lo@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 13:37:53 by adiaz-lo          #+#    #+#             */
-/*   Updated: 2021/02/03 17:24:03 by adiaz-lo         ###   ########.fr       */
+/*   Updated: 2021/02/04 14:41:27 by adiaz-lo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,55 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (tab);
 }
 
+/*
+** Auxiliar function that trims what we read to a line.
+*/
+
+static int	set_line(char **line, char *aux)
+{
+	int	tmp;
+	char	*tmp2;
+
+	tmp = 0;
+	while (aux[tmp] != '\n' && aux[tmp] != '\0')
+		tmp++;
+	if (aux[tmp] == '\n')
+	{
+		*line = ft_substr(aux, 0, tmp);
+		tmp2 = ft_strdup(&aux[tmp + 1]);
+		free(aux);
+		aux = tmp2;
+	}
+	else if (aux[tmp] == '\0')
+	{
+		*line = ft_strdup(aux);
+		return (0);
+	}
+	return (1);
+}
+
+static int	check_read(int i, char **line, char *aux)
+{
+	if (i < 0)
+		return (-1);
+	if (i == 0 && !aux)
+	{
+		aux = ft_strdup("");
+		aux = 0;
+		return (0);
+	}
+	else
+		return (ft_set_line(line, aux));
+}
+
 int	get_next_line(int fd, char **line)
 {
 	int		i;
 	char		buf[BUFFER_SIZE + 1];
 	static char	*aux;
 	char		*aux2;
-	int		tmp;
-	char		*tmp2;
 
-	if (!line)
+	if (!line || fd < 0 || BUFFER_SIZE < 1 || read (fd, buf, 0) < 0)
 		return (-1);
 	while ((i = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
@@ -68,33 +107,6 @@ int	get_next_line(int fd, char **line)
 		if (ft_strchr(aux, '\n'))
 			break;
 	}
-	if (i == -1)
-		return (i);
-	if (i == 0 && !aux)
-	{
-		aux = ft_strdup("");
-		return (i);
-	}
-	else
-	{
-		tmp = 0;
-		while (aux[tmp] != '\n' && aux[tmp] != '\0')
-			tmp++;
-		if (aux[tmp] == '\n')
-		{
-			*line = ft_substr(aux, 0, tmp);
-			tmp2 = ft_strdup(&aux[tmp + 1]);
-			free(aux);
-			aux = tmp2;
-		}
-		else if (aux[tmp] == '\0')
-		{
-			*line = ft_strdup(aux);
-			free(aux);
-			aux = 0;
-			return (0);
-		}
-		return (1);
-	}
+	return (check_read(i, line, aux));
 }
 
