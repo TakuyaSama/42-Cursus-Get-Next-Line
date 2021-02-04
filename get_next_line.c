@@ -6,7 +6,7 @@
 /*   By: adiaz-lo <adiaz-lo@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 13:37:53 by adiaz-lo          #+#    #+#             */
-/*   Updated: 2021/02/04 17:36:13 by adiaz-lo         ###   ########.fr       */
+/*   Updated: 2021/02/04 17:45:17 by adiaz-lo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ static int	set_line(char **line, char **line_read)
 	char	*tmp2;
 
 	tmp = 0;
-	while ((*line_read)[tmp] != L_EOF && (*line_read)[tmp] != '\0')
+	while ((*line_read)[tmp] != '\n' && (*line_read)[tmp] != '\0')
 		tmp++;
-	if ((*line_read)[tmp] == L_EOF)
+	if ((*line_read)[tmp] == '\n')
 	{
 		*line = ft_substr(*line_read, 0, tmp);
-		tmp2 = ft_strdup((*line_read)[tmp + 1]);
+		tmp2 = ft_strdup(&(*line_read)[tmp + 1]);
 		free(*line_read);
 		*line_read = tmp2;
 	}
@@ -126,7 +126,7 @@ int	get_next_line(int fd, char **line)
 			free(str[fd]);
 			str[fd] = str_buf;
 		}
-		if (ft_strchr(str[fd], L_EOF))
+		if (ft_strchr(str[fd], '\n'))
 			break ;
 	}
 	return (check_read(fd, i, line, str));
