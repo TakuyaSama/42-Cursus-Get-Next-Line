@@ -6,15 +6,15 @@
 /*   By: adiaz-lo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 12:52:10 by adiaz-lo          #+#    #+#             */
-/*   Updated: 2021/02/04 20:16:57 by adiaz-lo         ###   ########.fr       */
+/*   Updated: 2021/02/04 21:55:35 by adiaz-lo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 /*
- ** This function returns the length of a string.
- */
+** This function returns the length of a string.
+*/
 
 size_t	ft_strlen(const char *s)
 {
@@ -53,11 +53,11 @@ char	*ft_strjoin(char const *s1, char const *s2)
 }
 
 /*
- ** This function returns a pointer to the first occurrence of the character 'c'
- ** in the string 's'.
- ** For further information, please check the Standard C Library function
- ** 'strchr(const char *s, int c)'
- */
+** This function returns a pointer to the first occurrence of the character 'c'
+** in the string 's'.
+** For further information, please check the Standard C Library function
+** 'strchr(const char *s, int c)'
+*/
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -73,9 +73,9 @@ char	*ft_strchr(const char *s, int c)
 }
 
 /*
- ** This function copies 'dstsize' of the string 'src' into 'dst' and returns
- ** the total length of the result string.
- */
+** This function copies 'dstsize' of the string 'src' into 'dst' and returns
+** the total length of the result string.
+*/
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
@@ -98,10 +98,10 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 }
 
 /*
- ** This function returns a pointer to a new string obtained duplicating 's'.
- ** For further information, please check the Standard C Library
- ** strdup(const char *s)
- */
+** This function returns a pointer to a new string obtained duplicating 's'.
+** For further information, please check the Standard C Library
+** strdup(const char *s)
+*/
 
 char	*ft_strdup(const char *s)
 {
